@@ -20,7 +20,7 @@ How to Install
 2. Install Pygame from IDE terminal
 3. Clone this repository or Download Zip & Extract it
 4. Open & Run flappy-bird-master folder from IDE
-5. Use <SpaceBar> to control your character.
+5. Use "SpaceBar" to control your character.
 
 ScreenShot
 -----------
