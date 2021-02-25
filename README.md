@@ -27,4 +27,4 @@ ScreenShot
 
 ![FlappyBird](Images/ScreenShot1.PNG)
 
-![FlappyBirdMenu](Images/Screenshot2.PNG)
+![FlappyBirdMenu](Images/ScreenShot2.PNG)
