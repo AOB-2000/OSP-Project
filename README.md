@@ -25,6 +25,6 @@ How to Install
 ScreenShot
 -----------
 
-![Flappy Bird] (/blob/master/ScreenShot1.PNG)
+![](blob/master/ScreenShot1.PNG)
 
-![Flappy Bird Menu] (/blob/master/Screenshot2.PNG)
+![](blob/master/Screenshot2.PNG)
