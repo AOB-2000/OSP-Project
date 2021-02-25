@@ -25,6 +25,6 @@ How to Install
 ScreenShot
 -----------
 
-![Flappy Bird] (ScreenShot 1.png)
+![Flappy Bird] (ScreenShot1.PNG)
 
-![Flappy Bird Menu] (ScreenShot 2.png)
+![Flappy Bird Menu] (ScreenShot2.PNG)
