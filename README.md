@@ -7,9 +7,12 @@ A Flappy Bird Clone with new Additions!
 
 **Features**
 
-* New levels
+* New Level Designs
+* Practice Mode
+* Random Level Generator
+* Multiplayer Mode
+* Lives System
 * New Characters
-* More to come.
 
 Enjoy.
 
