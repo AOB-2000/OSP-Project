@@ -6,8 +6,8 @@ def draw_floor():
 
 def create_pipe():
 	random_pipe_pos = random.choice(pipe_height)
-	bottom_pipe = pipe_surface.get_rect(midtop = (700,random_pipe_pos))
-	top_pipe = pipe_surface.get_rect(midbottom = (700,random_pipe_pos - 300))
+	bottom_pipe = pipe_surface.get_rect(midtop = (1400,random_pipe_pos + pipe_bot_diff))
+	top_pipe = pipe_surface.get_rect(midbottom = (1400,random_pipe_pos - pipe_top_diff))
 	return bottom_pipe,top_pipe
 
 def move_pipes(pipes):
@@ -61,6 +61,10 @@ def score_display(game_state):
 		high_score_rect = high_score_surface.get_rect(center = (288,850))
 		screen.blit(high_score_surface,high_score_rect)
 
+		difficulty_surface = game_font.render(f'Easy: 1 Medium: 2 Hard: 3 ', True, (255, 255, 255))
+		difficulty_rect = difficulty_surface.get_rect(center=(288, 400))
+		screen.blit(difficulty_surface, difficulty_rect)
+
 def update_score(score, high_score):
 	if score > high_score:
 		high_score = score
@@ -85,6 +89,8 @@ clock = pygame.time.Clock()
 game_font = pygame.font.Font('04B_19.ttf',40)
 
 # Game Variables
+pipe_top_diff = 300
+pipe_bot_diff = 0
 gravity = 0.25
 bird_movement = 0
 game_active = True
@@ -138,7 +144,7 @@ while True:
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_SPACE and game_active:
 				bird_movement = 0
-				bird_movement -= 12
+				bird_movement -= 6
 				flap_sound.play()
 			if event.key == pygame.K_SPACE and game_active == False:
 				game_active = True
@@ -146,6 +152,15 @@ while True:
 				bird_rect.center = (100,512)
 				bird_movement = 0
 				score = 0
+			if event.key == pygame.K_1 and game_active == False:
+				pipe_bot_diff = 300
+				pipe_top_diff = 600
+			if event.key == pygame.K_2 and game_active == False:
+				pipe_bot_diff = 190
+				pipe_top_diff = 430
+			if event.key == pygame.K_3 and game_active == False:
+				pipe_bot_diff = 0
+				pipe_top_diff = 300
 
 		if event.type == SPAWNPIPE:
 			pipe_list.extend(create_pipe())
@@ -162,6 +177,7 @@ while True:
 
 	if game_active:
 		# Bird
+
 		bird_movement += gravity
 		rotated_bird = rotate_bird(bird_surface)
 		bird_rect.centery += bird_movement
