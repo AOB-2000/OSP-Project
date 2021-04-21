@@ -1,3 +1,6 @@
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
+![GitHub](https://img.shields.io/github/license/AOB-2000/OSP-Project?color=blue)
+
 # OSP-Project
 
 Flappy Bird
