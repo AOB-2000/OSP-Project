@@ -23,9 +23,9 @@ def move_pipes(pipes):
 def draw_pipes(pipes):
     for pipe in pipes:
         if pipe.bottom >= 1024:
-            screen.blit(pipe_surface, pipe)
+            screen.blit(pipe_surface if not training else pipe_surface_training, pipe)
         else:
-            flip_pipe = pygame.transform.flip(pipe_surface, False, True)
+            flip_pipe = pygame.transform.flip(pipe_surface if not training else pipe_surface_training, False, True)
             screen.blit(flip_pipe, pipe)
 
 
@@ -33,7 +33,8 @@ def check_collision(pipes):
     global can_score
     for pipe in pipes:
         if bird_rect.colliderect(pipe):
-            death_sound.play()
+            if not died_last_frame:
+                death_sound.play()
             can_score = True
             return False
 
@@ -45,8 +46,7 @@ def check_collision(pipes):
 
 
 def rotate_bird(bird):
-    new_bird = pygame.transform.rotozoom(bird, -bird_movement * 3, 1)
-    return new_bird
+    return pygame.transform.rotozoom(bird, -bird_movement * 3, 1)
 
 
 def bird_animation():
@@ -60,7 +60,7 @@ def score_display(game_state):
         score_surface = game_font.render(str(int(score)), True, (255, 255, 255))
         score_rect = score_surface.get_rect(center=(288, 100))
         screen.blit(score_surface, score_rect)
-    if game_state == 'game_over':
+    elif game_state == 'game_over':
         score_surface = game_font.render(f'Score: {int(score)}', True, (255, 255, 255))
         score_rect = score_surface.get_rect(center=(288, 100))
         screen.blit(score_surface, score_rect)
@@ -69,14 +69,28 @@ def score_display(game_state):
         high_score_rect = high_score_surface.get_rect(center=(288, 850))
         screen.blit(high_score_surface, high_score_rect)
 
-        difficulty_surface = game_font.render(f'Easy: 1 Medium: 2 Hard: 3 ', True, (255, 255, 255))
+        difficulty_surface = game_font_small.render(f'Easy: 1 Medium: 2 Hard: 3, Training: 4', True, (255, 255, 255))
         difficulty_rect = difficulty_surface.get_rect(center=(288, 400))
         screen.blit(difficulty_surface, difficulty_rect)
+        
+
+    if training:
+        current_diff_surface = game_font.render(f'Training', True, (255, 255, 255))
+        current_diff_rect = current_diff_surface.get_rect(center=(288, 150))
+        screen.blit(current_diff_surface, current_diff_rect)
+
+        if game_state == 'main_game':
+            quit_training_surface = game_font.render(f'Press RETURN to quit', True, (255, 255, 255))
+            quit_training_rect = quit_training_surface.get_rect(center=(288, 200))
+            screen.blit(quit_training_surface, quit_training_rect)
+
+            dead_counter_surface = game_font_small.render(f'Times died: {int(times_dead)}', True, (255, 255, 255))
+            dead_counter_rect = dead_counter_surface.get_rect(center=(288, 230))
+            screen.blit(dead_counter_surface, dead_counter_rect)
 
 
 def update_score(score, high_score):
-    if score > high_score:
-        high_score = score
+    high_score = max(score, high_score)
     return high_score
 
 
@@ -98,6 +112,7 @@ pygame.init()
 screen = pygame.display.set_mode((576, 1024))
 clock = pygame.time.Clock()
 game_font = pygame.font.Font('04B_19.ttf', 40)
+game_font_small = pygame.font.Font('04B_19.ttf', 20)
 
 # Game Variables
 pipe_top_diff = 300
@@ -132,6 +147,10 @@ pygame.time.set_timer(BIRDFLAP, 200)
 
 pipe_surface = pygame.image.load('assets/pipe-green.png')
 pipe_surface = pygame.transform.scale2x(pipe_surface)
+
+pipe_surface_training = pygame.Surface.copy(pipe_surface)
+pygame.Surface.set_alpha(pipe_surface_training, 90)
+
 pipe_list = []
 SPAWNPIPE = pygame.USEREVENT
 pygame.time.set_timer(SPAWNPIPE, 1200)
@@ -139,6 +158,10 @@ pipe_height = [400, 600, 800]
 
 game_over_surface = pygame.transform.scale2x(pygame.image.load('assets/message.png').convert_alpha())
 game_over_rect = game_over_surface.get_rect(center=(288, 512))
+
+training = False
+times_dead = 0
+died_last_frame = False
 
 flap_sound = pygame.mixer.Sound('sound/sfx_wing.wav')
 death_sound = pygame.mixer.Sound('sound/sfx_hit.wav')
@@ -162,30 +185,36 @@ while True:
                 bird_movement = 0
                 bird_movement -= 6
                 flap_sound.play()
-            if event.key == pygame.K_SPACE and game_active == False:
+            elif event.key == pygame.K_SPACE and game_active == False:
+                times_dead = 0
                 game_active = True
                 pipe_list.clear()
                 bird_rect.center = (100, 512)
                 bird_movement = 0
                 score = 0
-            if event.key == pygame.K_1 and game_active == False:
+            elif event.key == pygame.K_1 and game_active == False:
+                training = False
                 pipe_bot_diff = 300
                 pipe_top_diff = 600
-            if event.key == pygame.K_2 and game_active == False:
+            elif event.key == pygame.K_2 and game_active == False:
+                training = False
                 pipe_bot_diff = 190
                 pipe_top_diff = 430
-            if event.key == pygame.K_3 and game_active == False:
+            elif event.key == pygame.K_3 and game_active == False:
+                training = False
                 pipe_bot_diff = 0
                 pipe_top_diff = 300
+            elif event.key == pygame.K_4 and game_active == False:
+                training = True
+            elif event.key == pygame.K_RETURN and game_active and training:
+                game_active = False
+            
 
         if event.type == SPAWNPIPE:
             pipe_list.extend(create_pipe())
 
         if event.type == BIRDFLAP:
-            if bird_index < 2:
-                bird_index += 1
-            else:
-                bird_index = 0
+            bird_index = (bird_index + 1) % 3
 
             bird_surface, bird_rect = bird_animation()
 
@@ -198,7 +227,14 @@ while True:
         rotated_bird = rotate_bird(bird_surface)
         bird_rect.centery += bird_movement
         screen.blit(rotated_bird, bird_rect)
-        game_active = check_collision(pipe_list)
+        collide_state = check_collision(pipe_list)
+        if not training:
+            game_active = collide_state
+        elif (not died_last_frame and not collide_state):
+            times_dead += 1
+            died_last_frame = True
+        elif (collide_state):
+            died_last_frame = False
 
         # Pipes
         pipe_list = move_pipes(pipe_list)
@@ -209,7 +245,8 @@ while True:
         score_display('main_game')
     else:
         screen.blit(game_over_surface, game_over_rect)
-        high_score = update_score(score, high_score)
+        if not training:
+            high_score = update_score(score, high_score)
         score_display('game_over')
 
     # Floor
