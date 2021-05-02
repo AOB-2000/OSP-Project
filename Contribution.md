@@ -25,7 +25,7 @@ Contributions are made to this repo via Issues and Pull Requests (PRs). A few ge
 - Use the issue templates as a guide to how to identify bugs or add features.
 - Review other open issues before opening a new issue as to avoid any repetition
 - Issues added will be addressed in due time but will take time to be reviewed and resolved.
-- If you've never contributed before, see [the first timer's guide on our blog](https://auth0.com/blog/a-first-timers-guide-to-an-open-source-project/) for resources and tips on how to get started.
+- If you've never contributed before, see [the first timer's guide](https://auth0.com/blog/a-first-timers-guide-to-an-open-source-project/) for resources and tips on how to get started.
 
 ### Issues
 
