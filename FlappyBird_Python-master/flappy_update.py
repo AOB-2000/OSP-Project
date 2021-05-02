@@ -12,7 +12,6 @@ def create_pipe():
     top_pipe = pipe_surface.get_rect(midbottom=(1400, random_pipe_pos - pipe_top_diff))
     return bottom_pipe, top_pipe
 
-
 def move_pipes(pipes):
     for pipe in pipes:
         pipe.centerx -= 5
@@ -73,6 +72,10 @@ def score_display(game_state):
         difficulty_rect = difficulty_surface.get_rect(center=(288, 400))
         screen.blit(difficulty_surface, difficulty_rect)
 
+
+		difficulty_surface = game_font.render(f'Easy: 1 Medium: 2 Hard: 3 ', True, (255, 255, 255))
+		difficulty_rect = difficulty_surface.get_rect(center=(288, 400))
+		screen.blit(difficulty_surface, difficulty_rect)
 
 def update_score(score, high_score):
     if score > high_score:
@@ -220,3 +223,4 @@ while True:
 
     pygame.display.update()
     clock.tick(120)
+
