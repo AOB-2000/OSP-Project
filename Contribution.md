@@ -16,7 +16,7 @@ We love your input! We want to make contributing to this project as easy and tra
 
 ## Code of Conduct
 
-We take our open source community seriously and hold ourselves and other contributors to high standards of communication. By participating and contributing to this project, you agree to uphold our Code of Conduct.
+We take our open source community seriously and hold ourselves and other contributors to high standards of communication. By participating and contributing to this project, you agree to uphold our [Code of Conduct](https://github.com/AOB-2000/OSP-Project/blob/master/Code%20of%20Conduct).
 
 ## Getting Started
 
@@ -33,6 +33,10 @@ Issues should be used to report problems with the repository, request a new feat
 
 If you find an Issue that addresses the problem you're having, please add your own reproduction information to the existing issue rather than creating a new one.
 
+[Bug Report Template](https://github.com/AOB-2000/OSP-Project/blob/master/.github/ISSUE_TEMPLATE/flappy-bird---bug-report.md)
+
+[Feature Request](https://github.com/AOB-2000/OSP-Project/blob/master/.github/ISSUE_TEMPLATE/flappy-bird---feature-request.md)
+
 ### Pull Requests
 
 Pull Requests to our repository are always welcome and can be a quick way to get your fix or improvement resolved even faster. In general, Pull Requests should:
@@ -45,4 +49,4 @@ Pull Requests to our repository are always welcome and can be a quick way to get
 For changes that address core functionality or would require breaking changes (e.g. a major addition), it's best to open an Issue to discuss your proposal first. This is not required but can save time creating and reviewing changes.
 
 ## License
-By contributing, you agree that your contributions will be licensed under its MIT License.
+By contributing, you agree that your contributions will be licensed under its [MIT License](https://github.com/AOB-2000/OSP-Project/blob/master/LICENSE.txt).
